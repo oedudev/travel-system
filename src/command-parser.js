@@ -36,8 +36,8 @@ module.exports = {
 
                 parseResult.isValid = true
                 parseResult.payload = {
-                    car_type: splittedMsg[1],
-                    car_name: splittedMsg[2]
+                    type: splittedMsg[1],
+                    name: splittedMsg[2]
                 }
 
                 return parseResult
