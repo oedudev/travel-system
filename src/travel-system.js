@@ -3,7 +3,9 @@ const randomizer = require('./randomizer')
 let cars = []
 let attribute_changes = {}
 
+
 function startTravel(car) {
+
     setDefaultCarAttributes(car)
 
     // Update attributes on car only when the next travel will begin.
@@ -68,11 +70,12 @@ function stopTravel(car) {
     current_travel.income = (car.number_of_passengers * car.traveling_distance_in_km * car.cost_per_km)
     current_travel.finish_travel_date = new Date()
 
-    if (car.status == 'to_remove') {
-        return
-    }
-
     setTimeout(function () {
+
+        if (car.status == 'to_remove') {
+            console.log('Car was removed, stopping processing...')
+            return
+        }
         // Start travel again
         startTravel(car)
     }, idle_time_in_milliseconds)
@@ -83,6 +86,7 @@ function getCarByName(car_name) {
         return car.name == car_name
     })[0]
     return selected_car
+    // return cars[0]
 }
 
 module.exports = {
@@ -92,7 +96,7 @@ module.exports = {
     },
     removeCar(car_name) {
         let selected_car = getCarByName(car_name)
-        selected_car.status == 'to_remove'
+        selected_car.status = 'to_remove'
     },
     report(car_name) {
         let selected_car = getCarByName(car_name)
@@ -114,11 +118,10 @@ module.exports = {
             time_from_start: travels[0].start_travel_date,
             number_of_travels: travels.length,
             total_income: total_income,
-            travels: travels
+            // travels: travels
         }
     },
-    getAll() {
-        return cars
-    },
-    setAttrCar() { }
+    setAttrCar(car_attributes) {
+
+    }
 }

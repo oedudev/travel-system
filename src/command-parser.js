@@ -55,7 +55,7 @@ module.exports = {
             case "report":
                 if (splittedMsg.length != 2) {
                     parseResult.isValid = false
-                    parseResult.errorMessage = "invalid argument numbers"
+                    parseResult.errorMessage = "invalid number of arguments"
                     return parseResult
                 }
 
@@ -65,7 +65,31 @@ module.exports = {
                 }
                 return parseResult
             case "set":
-                break;
+                if (splittedMsg.length != 4) {
+                    parseResult.isValid = false
+                    parseResult.errorMessage = "invalid number of arguments"
+                    return parseResult
+                }
+
+
+                const car_name = splittedMsg[1]
+                const attribute_name = splittedMsg[2]
+                const attribute_value = splittedMsg[3]
+
+                if (attribute_name != "cost_per_km" && attribute_name != "allowed_num_passengers" && attribute_name != "allowed_max_speed") {
+                    parseResult.isValid = false
+                    parseResult.errorMessage = `Invalid attribute name: '${attribute_name}'`
+                    return parseResult
+                }
+
+                parseResult.isValid = true
+                parseResult.payload = {
+                    car_name: car_name,
+                    attribute_name: attribute_name,
+                    attribute_value: attribute_value
+                }
+
+                return parseResult
             default:
                 parseResult.isValid = false
                 parseResult.errorMessage = "invalid action"

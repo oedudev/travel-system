@@ -19,14 +19,16 @@ app.post('/action', function (req, res) {
   switch (parseResult.action) {
     case "newcar":
       travelSystem.addCar(parseResult.payload)
-      return res.json(parseResult);
+      return res.status(200).json({ msg: "Car added" })
     case "report":
       const report = travelSystem.report(parseResult.payload.car_name)
       return res.status(200).json(report)
     case "remove":
-      return
-    case "report":
-      return
+      travelSystem.removeCar(parseResult.payload.car_name)
+      return res.status(200).json({ msg: "Car removed" })
+    case "set":
+      travelSystem.setAttrCar(parseResult.payload)
+      return res.status(200).json({ msg: "Attribute setted" })
   }
 
 });
