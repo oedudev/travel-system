@@ -41,8 +41,17 @@ module.exports = {
 
                 return parseResult
             case "remove":
+                if (splittedMsg.length != 2) {
+                    parseResult.isValid = false
+                    parseResult.errorMessage = "invalid argument numbers"
+                    return parseResult
+                }
 
-                break;
+                parseResult.isValid = true
+                parseResult.payload = {
+                    car_name: splittedMsg[1]
+                }
+                return parseResult
             case "report":
                 if (splittedMsg.length != 2) {
                     parseResult.isValid = false
@@ -54,14 +63,12 @@ module.exports = {
                 parseResult.payload = {
                     car_name: splittedMsg[1]
                 }
-
                 return parseResult
-
-
-                break;
             case "set":
                 break;
             default:
+                parseResult.isValid = false
+                parseResult.errorMessage = "invalid action"
                 return parseResult
         }
 

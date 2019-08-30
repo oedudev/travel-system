@@ -11,20 +11,22 @@ app.post('/action', function (req, res) {
   let parseResult = commandParser.parse(req.body.command)
 
   if (!parseResult.isValid) {
-    res.status(500).json({
+    return res.status(500).json({
       errorMessage: parseResult.errorMessage
     })
-    return
   }
 
   switch (parseResult.action) {
     case "newcar":
       travelSystem.addCar(parseResult.payload)
-      res.json(parseResult);
-      return
+      return res.json(parseResult);
     case "report":
       const report = travelSystem.report(parseResult.payload.car_name)
-      res.status(200).json(report)
+      return res.status(200).json(report)
+    case "remove":
+      return
+    case "report":
+      return
   }
 
 });
