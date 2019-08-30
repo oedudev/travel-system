@@ -14,16 +14,20 @@ app.post('/action', function (req, res) {
     res.status(500).json({
       errorMessage: parseResult.errorMessage
     })
+    return
   }
 
-  travelSystem.addCar(parseResult.payload)
+  switch (parseResult.action) {
+    case "newcar":
+      travelSystem.addCar(parseResult.payload)
+      res.json(parseResult);
+      return
+    case "report":
+      const report = travelSystem.report(parseResult.payload.car_name)
+      res.status(200).json(report)
+  }
 
-  res.json(parseResult);
 });
-
-app.get('/report', function (req, res) {
-    res.send('Hello World!');
-  });
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');

@@ -20,7 +20,6 @@ module.exports = {
 
         switch (action) {
             case "newcar":
-                console.log("cheguei no create")
                 if (splittedMsg.length != 3) {
                     parseResult.isValid = false
                     parseResult.errorMessage = "invalid argument numbers"
@@ -42,13 +41,28 @@ module.exports = {
 
                 return parseResult
             case "remove":
+
                 break;
             case "report":
+                if (splittedMsg.length != 2) {
+                    parseResult.isValid = false
+                    parseResult.errorMessage = "invalid argument numbers"
+                    return parseResult
+                }
+
+                parseResult.isValid = true
+                parseResult.payload = {
+                    car_name: splittedMsg[1]
+                }
+
+                return parseResult
+
+
                 break;
             case "set":
-                break; 
+                break;
             default:
-                return parseResult                                       
+                return parseResult
         }
 
         return parseResult
