@@ -1,10 +1,3 @@
-/*
-·       newcar <car_type> <car_name>: Create and start running a new car, named <car_name>.
-·       remove <car_name>: Stop and remove the car <car_name> from the system.
-·       report <car_name>: Get a report from <car_name>.
-·       set <car_name> <attr> <val>: Set attribute <attr> of <car_name> to <val>
-*/
-
 module.exports = {
     parse: (msg) => {
         let parseResult = {
@@ -38,8 +31,8 @@ module.exports = {
                     type: splittedMsg[1],
                     name: splittedMsg[2]
                 }
-
                 return parseResult
+
             case "remove":
                 if (splittedMsg.length != 2) {
                     parseResult.isValid = false
@@ -52,6 +45,7 @@ module.exports = {
                     car_name: splittedMsg[1]
                 }
                 return parseResult
+
             case "report":
                 if (splittedMsg.length != 2) {
                     parseResult.isValid = false
@@ -64,6 +58,7 @@ module.exports = {
                     car_name: splittedMsg[1]
                 }
                 return parseResult
+
             case "set":
                 if (splittedMsg.length != 4) {
                     parseResult.isValid = false
@@ -71,14 +66,19 @@ module.exports = {
                     return parseResult
                 }
 
-
                 const car_name = splittedMsg[1]
                 const attribute_name = splittedMsg[2]
-                const attribute_value = splittedMsg[3]
+                const attribute_value = Number(splittedMsg[3])
 
                 if (attribute_name != "cost_per_km" && attribute_name != "allowed_num_passengers" && attribute_name != "allowed_max_speed") {
                     parseResult.isValid = false
                     parseResult.errorMessage = `Invalid attribute name: '${attribute_name}'`
+                    return parseResult
+                }
+
+                if (attribute_value == 'NaN') {
+                    parseResult.isValid = false
+                    parseResult.errorMessage = `Attribute value is not a number '${attribute_value}'`
                     return parseResult
                 }
 
@@ -88,14 +88,12 @@ module.exports = {
                     attribute_name: attribute_name,
                     attribute_value: attribute_value
                 }
-
                 return parseResult
+
             default:
                 parseResult.isValid = false
-                parseResult.errorMessage = "invalid action"
+                parseResult.errorMessage = `invalid action '${action}'`
                 return parseResult
         }
-
-        return parseResult
     }
 }
